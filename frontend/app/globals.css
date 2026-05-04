@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-void: #06060A;
+  --color-accent: #4ECDC4;
+  --color-bull: #22D17A;
+  --color-bear: #FF4D6A;
+  --color-neutral: #F5A623;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #06060A;
+  color: #F0F0FA;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0D0D14; }
+::-webkit-scrollbar-thumb { background: #242436; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4ECDC4; }
+
+.mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+.card {
+  background: #0D0D14;
+  border: 1px solid #242436;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: #4ECDC4;
+  box-shadow: 0 0 20px rgba(78, 205, 196, 0.08);
+}
+
+.btn-primary {
+  background: #4ECDC4;
+  color: #06060A;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  background: transparent;
+  color: #8888AA;
+  border: 1px solid #242436;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover { border-color: #4ECDC4; color: #4ECDC4; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-bull { background: rgba(34,209,122,0.15); color: #22D17A; }
+.badge-bear { background: rgba(255,77,106,0.15); color: #FF4D6A; }
+.badge-neutral { background: rgba(245,166,35,0.15); color: #F5A623; }
+.badge-volatile { background: rgba(78,205,196,0.15); color: #4ECDC4; }
+.badge-low { background: rgba(34,209,122,0.1); color: #22D17A; }
+.badge-medium { background: rgba(245,166,35,0.1); color: #F5A623; }
+.badge-high { background: rgba(255,107,53,0.1); color: #FF6B35; }
+.badge-critical { background: rgba(255,77,106,0.1); color: #FF4D6A; }
+
+.input {
+  background: #0D0D14;
+  border: 1px solid #242436;
+  color: #F0F0FA;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+  outline: none;
+}
+.input:focus { border-color: #4ECDC4; }
+.input::placeholder { color: #444466; }
+
+.section-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8888AA;
+  margin-bottom: 0.5rem;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #0D0D14 25%, #1C1C2E 50%, #0D0D14 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeIn 0.4s ease forwards; }
