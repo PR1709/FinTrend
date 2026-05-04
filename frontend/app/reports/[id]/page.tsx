@@ -26,7 +26,7 @@ function RiskBadge({ risk }: { risk: string }) {
   return <span className={`badge badge-${risk}`}>{risk.toUpperCase()} RISK</span>;
 }
 
-function Section({ title, icon: Icon, children }: { title: string; icon: React.ComponentType<{size?: number; className?: string}>; children: React.ReactNode }) {
+function Section({ title, icon: Icon, children }: { title: string; icon: any; children: React.ReactNode }) {
   return (
     <div className="card p-6 mb-6">
       <div className="flex items-center gap-2 mb-4">

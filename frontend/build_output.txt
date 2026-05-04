@@ -1,0 +1,36 @@
+
+> fintrend-frontend@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.3
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/7) ...
+   Generating static pages (1/7) 
+   Generating static pages (3/7) 
+   Generating static pages (5/7) 
+ ✓ Generating static pages (7/7)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    173 B          94.2 kB
+├ ○ /_not-found                          875 B          88.1 kB
+├ ○ /analyze                             3.95 kB        91.2 kB
+├ ƒ /api/proxy/[...path]                 0 B                0 B
+├ ○ /memory                              3.49 kB        97.6 kB
+├ ○ /reports                             2.81 kB        96.9 kB
+└ ƒ /reports/[id]                        106 kB          200 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/23-e5037a43b0a2ba15.js        31.6 kB
+  ├ chunks/fd9d1056-3b379d255e5b12ed.js  53.6 kB
+  └ other shared chunks (total)          2 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
