@@ -14,7 +14,15 @@ export async function DELETE(req: NextRequest, { params }: { params: { path: str
 }
 
 async function proxy(req: NextRequest, path: string[], method: string) {
-  const url = `${BACKEND}/api/v1/${path.join("/")}${req.nextUrl.search}`;
+  // If BACKEND is a relative path or we want to use the current origin for /_/backend
+  // When using Vercel experimentalServices, /_/backend points to the backend
+  let baseUrl = BACKEND;
+  if (!process.env.NEXT_PUBLIC_API_BASE_URL && process.env.VERCEL) {
+    // Determine the host for dynamic vercel deployments
+    baseUrl = `${req.nextUrl.protocol}//${req.headers.get("host")}/_/backend`;
+  }
+
+  const url = `${baseUrl}/api/v1/${path.join("/")}${req.nextUrl.search}`;
 
   const isFormData = req.headers.get("content-type")?.includes("multipart");
   const headers: Record<string, string> = {
