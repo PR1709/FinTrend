@@ -15,9 +15,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { path: str
 
 async function proxy(req: NextRequest, path: string[], method: string) {
   let baseUrl = BACKEND;
-  if (!process.env.NEXT_PUBLIC_API_BASE_URL && process.env.VERCEL) {
-    // When using Vercel experimentalServices, /_/backend points to the backend
-    // Construct the absolute URL using forwarded headers to ensure correctness on Vercel
+  // If we are not explicitly given a backend URL and we clearly aren't on localhost,
+  // we assume we are running on Vercel and route traffic to our experimentalServices backend.
+  const isLocalhost = req.headers.get("host")?.includes("localhost") || req.nextUrl.hostname === "localhost";
+  if (!process.env.NEXT_PUBLIC_API_BASE_URL && !isLocalhost) {
     const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
     const protocol = req.headers.get("x-forwarded-proto") ? `${req.headers.get("x-forwarded-proto")}:` : "https:";
     baseUrl = `${protocol}//${host}/_/backend`;
