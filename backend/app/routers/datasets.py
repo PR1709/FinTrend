@@ -10,7 +10,10 @@ from app.models.responses import ok, err, DatasetMeta
 router = APIRouter()
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
-UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
+if os.environ.get("VERCEL"):
+    UPLOAD_DIR = "/tmp/uploads"
+else:
+    UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
 
 
 def require_key(key: str = Depends(api_key_header)):

@@ -1,7 +1,11 @@
 import aiosqlite
 import os
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "memento.db")
+# On Vercel, the file system is read-only except for /tmp
+if os.environ.get("VERCEL"):
+    DB_PATH = "/tmp/memento.db"
+else:
+    DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "memento.db")
 
 
 async def get_db():

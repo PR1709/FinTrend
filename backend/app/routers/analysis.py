@@ -16,8 +16,12 @@ import aiosqlite
 router = APIRouter()
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
-UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
-REPORTS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "reports")
+if os.environ.get("VERCEL"):
+    UPLOAD_DIR = "/tmp/uploads"
+    REPORTS_DIR = "/tmp/reports"
+else:
+    UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
+    REPORTS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data", "reports")
 
 
 def require_key(key: str = Depends(api_key_header)):

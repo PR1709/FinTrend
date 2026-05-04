@@ -14,12 +14,13 @@ export async function DELETE(req: NextRequest, { params }: { params: { path: str
 }
 
 async function proxy(req: NextRequest, path: string[], method: string) {
-  // If BACKEND is a relative path or we want to use the current origin for /_/backend
-  // When using Vercel experimentalServices, /_/backend points to the backend
   let baseUrl = BACKEND;
   if (!process.env.NEXT_PUBLIC_API_BASE_URL && process.env.VERCEL) {
-    // Determine the host for dynamic vercel deployments
-    baseUrl = `${req.nextUrl.protocol}//${req.headers.get("host")}/_/backend`;
+    // When using Vercel experimentalServices, /_/backend points to the backend
+    // Construct the absolute URL using forwarded headers to ensure correctness on Vercel
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const protocol = req.headers.get("x-forwarded-proto") ? `${req.headers.get("x-forwarded-proto")}:` : "https:";
+    baseUrl = `${protocol}//${host}/_/backend`;
   }
 
   const url = `${baseUrl}/api/v1/${path.join("/")}${req.nextUrl.search}`;
@@ -37,11 +38,20 @@ async function proxy(req: NextRequest, path: string[], method: string) {
 
   try {
     const res = await fetch(url, { method, headers, body });
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      // If the backend returns a non-JSON response (like a 502 HTML string from Vercel),
+      // we still want to forward the correct status code.
+      data = { error: text };
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (e) {
+    console.error(`Proxy fetch failed for ${url}:`, e);
     return NextResponse.json(
-      { success: false, data: null, error: { code: "PROXY_ERROR", message: String(e) }, timestamp: new Date().toISOString() },
+      { success: false, data: null, error: { code: "PROXY_ERROR", message: String(e), url }, timestamp: new Date().toISOString() },
       { status: 502 }
     );
   }
